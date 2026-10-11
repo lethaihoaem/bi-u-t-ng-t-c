@@ -1,5 +1,4 @@
 # KẾT QUẢ TỰ ĐÁNH GIÁ
-<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
@@ -47,11 +46,11 @@
   // ======================================
 
   const tenNhom = [
-    "Khai thác thông tin, dữ liệu và phần mềm dạy học.",
-    "Hợp tác và giao tiếp trong môi trường số.",
-    "Sáng tạo nội dung số và an toàn số.",
-    "Học tập nâng cao kĩ năng số.",
-    "Ứng dụng CNTT trong dạy học."
+    "Khai thác thông tin", "dữ liệu và phần mềm dạy học.",
+    "Hợp tác và giao tiếp","trong môi trường số.",
+    "Sáng tạo nội dung số","và an toàn số.",
+    "Học tập nâng cao","kĩ năng số.",
+    "Ứng dụng CNTT","trong dạy học."
   ];
 
   // ======================================
@@ -108,7 +107,7 @@
 
   const mauSac = [
     "#124874",
-    "#124874",
+    "#CF373D",
     "#124874"
   ];
 
@@ -152,18 +151,24 @@
 
       // Ba cột trong mỗi nhóm nằm cạnh nhau
       scales: {
-        x: {
-          stacked: false,
-
-          grid: {
-            display: false
-          },
-
-          title: {
-            display: true,
-            text: "Các nhóm"
-          }
-        },
+       x: {
+    title: {
+        display: true,
+        text: "Các nhóm"
+    },
+    ticks: {
+        align: "center",
+        autoSkip: false,
+        maxRotation: 0,
+        minRotation: 0,
+        font: {
+            size: 12
+        }
+    },
+    grid: {
+        display: false
+    }
+    },
 
         y: {
           min: 0,
@@ -202,11 +207,11 @@
               const indexNhom = items[0].dataIndex;
               const muc = items[0].datasetIndex + 1;
 
-              return tenNhom[indexNhom] + " - Mức " + muc;
+              return tenNhom[indexNhom];
             },
 
             label: function(context) {
-              return "Điểm: " + context.parsed.y;
+              return context.parsed.y + " điểm";
             },
 
             afterBody: function(items) {
