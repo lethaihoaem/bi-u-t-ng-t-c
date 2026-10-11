@@ -46,12 +46,12 @@
   // ======================================
 
   const tenNhom = [
-    ["Khai thác thông tin,", "dữ liệu và phần mềm", "dạy học"],
-    ["Hợp tác và giao tiếp", "trong môi trường số"],
-    ["Sáng tạo nội dung số", "và an toàn số"],
-    ["Học tập nâng cao", "kĩ năng số"],
-    ["Ứng dụng CNTT", "trong dạy học"]
-  ];
+  ["Khai thác thông tin,", "dữ liệu và phần mềm", "dạy học"],
+  ["Hợp tác và giao tiếp", "trong môi trường số"],
+  ["Sáng tạo nội dung số", "và an toàn số"],
+  ["Học tập nâng cao", "kĩ năng số"],
+  ["Ứng dụng CNTT", "trong dạy học"]
+];
 
   // ======================================
   // 2. NỘI DUNG HIỂN THỊ KHI RÊ CHUỘT
@@ -105,37 +105,30 @@
   // ======================================
 
   const mauXanh = "#124874";
-  const mauDo = "#CF373D";
-  const mauHover = "#E6A23C";
+const mauDo = "#CF373D";
 
-  // Tạo 3 tập dữ liệu, mỗi tập ứng với vị trí cột
-  const datasets = [0, 1, 2].map(function(muc) {
-    return {
-      label: (muc + 1) + " điểm",
+const datasets = [0, 1, 2].map(function(muc) {
+  return {
+    label: (muc + 1) + " điểm",
 
-      data: duLieu.map(function(nhom) {
-        return nhom[muc];
-      }),
+    data: duLieu.map(function(nhom) {
+      return nhom[muc];
+    }),
 
-      // Màu được xác định theo nhóm, không theo mức điểm
-      backgroundColor: function(context) {
-        const indexNhom = context.dataIndex;
-        return indexNhom % 2 === 0 ? mauXanh : mauDo;
-      },
+    backgroundColor: function(context) {
+      return context.dataIndex % 2 === 0
+        ? mauXanh
+        : mauDo;
+    },
 
-      hoverBackgroundColor: mauHover,
+    hoverBackgroundColor: "#E6A23C",
 
-      // Cột trong cùng nhóm nằm sát nhau
-      barPercentage: 0.95,
-
-      // Giảm nhẹ độ rộng cụm cột để tạo khoảng cách giữa các nhóm
-      categoryPercentage: 0.82,
-
-      borderRadius: 0,
-      borderSkipped: false
-    };
-  });
-
+    barPercentage: 0.95,
+    categoryPercentage: 0.82,
+    borderRadius: 0,
+    borderSkipped: false
+  };
+});
   // ======================================
   // 5. TẠO BIỂU ĐỒ
   // ======================================
