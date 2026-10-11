@@ -41,21 +41,19 @@
 
 <script>
   // ======================================
-  // 1. TÊN CÁC NHÓM
-  // Dùng mảng con để chủ động xuống dòng
+  // 1. TÊN 5 NHÓM
   // ======================================
 
   const tenNhom = [
-  ["Khai thác thông tin,", "dữ liệu và phần mềm", "dạy học"],
-  ["Hợp tác và giao tiếp", "trong môi trường số"],
-  ["Sáng tạo nội dung số", "và an toàn số"],
-  ["Học tập nâng cao", "kĩ năng số"],
-  ["Ứng dụng CNTT", "trong dạy học"]
-];
+    ["Khai thác thông tin,", "dữ liệu và phần mềm", "dạy học"],
+    ["Hợp tác và giao tiếp", "trong môi trường số"],
+    ["Sáng tạo nội dung số", "và an toàn số"],
+    ["Học tập nâng cao", "kĩ năng số"],
+    ["Ứng dụng CNTT", "trong dạy học"]
+  ];
 
   // ======================================
   // 2. NỘI DUNG HIỂN THỊ KHI RÊ CHUỘT
-  // Mỗi nhóm gồm 3 nội dung tương ứng 3 cột
   // ======================================
 
   const noiDung = [
@@ -88,7 +86,6 @@
 
   // ======================================
   // 3. DỮ LIỆU ĐIỂM CỦA 5 NHÓM
-  // Thứ tự trong mỗi nhóm: cột 1, cột 2, cột 3
   // ======================================
 
   const duLieu = [
@@ -100,37 +97,40 @@
   ];
 
   // ======================================
-  // 4. MÀU SẮC THEO NHÓM
-  // Nhóm 1 xanh, nhóm 2 đỏ, luân phiên
+  // 4. MÀU SẮC XEN KẼ THEO NHÓM
+  // Nhóm 1 xanh, nhóm 2 đỏ, nhóm 3 xanh...
   // ======================================
 
   const mauXanh = "#124874";
-const mauDo = "#CF373D";
+  const mauDo = "#CF373D";
+  const mauHover = "#E6A23C";
 
-const datasets = [0, 1, 2].map(function(muc) {
-  return {
-    label: (muc + 1) + " điểm",
+  const datasets = [0, 1, 2].map(function(muc) {
+    return {
+      label: (muc + 1) + " điểm",
 
-    data: duLieu.map(function(nhom) {
-      return nhom[muc];
-    }),
+      data: duLieu.map(function(nhom) {
+        return nhom[muc];
+      }),
 
-    backgroundColor: function(context) {
-      return context.dataIndex % 2 === 0
-        ? mauXanh
-        : mauDo;
-    },
+      backgroundColor: function(context) {
+        return context.dataIndex % 2 === 0
+          ? mauXanh
+          : mauDo;
+      },
 
-    hoverBackgroundColor: "#E6A23C",
+      hoverBackgroundColor: mauHover,
 
-    barPercentage: 0.95,
-    categoryPercentage: 0.82,
-    borderRadius: 0,
-    borderSkipped: false
-  };
-});
+      barPercentage: 0.95,
+      categoryPercentage: 0.82,
+
+      borderRadius: 0,
+      borderSkipped: false
+    };
+  });
+
   // ======================================
-  // 5. TẠO BIỂU ĐỒ
+  // 5. VẼ BIỂU ĐỒ
   // ======================================
 
   new Chart(document.getElementById("myChart"), {
@@ -160,7 +160,7 @@ const datasets = [0, 1, 2].map(function(muc) {
 
           title: {
             display: true,
-            text: " ",
+            text: "Các nhóm",
             padding: {
               top: 12
             }
@@ -201,32 +201,52 @@ const datasets = [0, 1, 2].map(function(muc) {
       },
 
       plugins: {
-        // Không hiển thị chú giải 1 điểm, 2 điểm, 3 điểm
+        // Ẩn chú giải màu sắc bên dưới biểu đồ
         legend: {
           display: false
         },
 
+        // ======================================
+        // 6. NỘI DUNG KHI RÊ CHUỘT
+        // Chỉ hiện nội dung và điểm số
+        // ======================================
+
         tooltip: {
-  enabled: true,
-  displayColors: false,
+          enabled: true,
+          displayColors: false,
 
-  callbacks: {
-    // Không hiển thị tên nhóm
-    title: function() {
-      return "";
-    },
+          callbacks: {
+            // Không hiển thị tên nhóm ở đầu hộp
+            title: function() {
+              return "";
+            },
 
-    // Hiển thị nội dung trước, điểm số sau
-    label: function(context) {
-      const indexNhom = context.dataIndex;
-      const muc = context.datasetIndex;
-      const diem = context.parsed.y;
+            // Dòng đầu: nội dung đánh giá
+            // Dòng tiếp theo: điểm số
+            label: function(context) {
+              const indexNhom = context.dataIndex;
+              const muc = context.datasetIndex;
+              const diem = context.parsed.y;
 
-      return [
-        noiDung[indexNhom][muc],
-        diem + " điểm"
-      ];
-    },
+              return [
+                noiDung[indexNhom][muc],
+                diem + " điểm"
+              ];
+            }
+          },
+
+          // Giới hạn chiều rộng để nội dung tự xuống dòng
+          bodyFont: {
+            size: 13
+          },
+
+          titleFont: {
+            size: 13
+          },
+
+          padding: 10,
+          boxPadding: 3
+        }
       }
     }
   });
