@@ -1,1 +1,1 @@
-# bi-u-t-ng-t-c
+# bieu do tuong tac
