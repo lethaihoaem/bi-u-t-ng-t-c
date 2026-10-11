@@ -160,7 +160,7 @@
 
           title: {
             display: true,
-            text: "Các nhóm",
+            text: " ",
             padding: {
               top: 12
             }
