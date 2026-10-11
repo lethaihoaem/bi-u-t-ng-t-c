@@ -207,29 +207,26 @@ const datasets = [0, 1, 2].map(function(muc) {
         },
 
         tooltip: {
-          enabled: true,
-          displayColors: false,
+  enabled: true,
+  displayColors: false,
 
-          callbacks: {
-            title: function(items) {
-              const indexNhom = items[0].dataIndex;
+  callbacks: {
+    // Không hiển thị tên nhóm
+    title: function() {
+      return "";
+    },
 
-              // Hiển thị tên nhóm đầy đủ trên tooltip
-              return tenNhom[indexNhom].join(" ");
-            },
+    // Hiển thị nội dung trước, điểm số sau
+    label: function(context) {
+      const indexNhom = context.dataIndex;
+      const muc = context.datasetIndex;
+      const diem = context.parsed.y;
 
-            label: function(context) {
-              return context.parsed.y + " điểm";
-            },
-
-            afterBody: function(items) {
-              const indexNhom = items[0].dataIndex;
-              const muc = items[0].datasetIndex;
-
-              return noiDung[indexNhom][muc];
-            }
-          }
-        }
+      return [
+        noiDung[indexNhom][muc],
+        diem + " điểm"
+      ];
+    },
       }
     }
   });
