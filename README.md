@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Biểu đồ 5 nhóm - 3 mức điểm</title>
+  <title>Kết quả tự đánh giá</title>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -28,7 +27,7 @@
 
     @media (max-width: 600px) {
       .chart-container {
-        height: 360px;
+        height: 390px;
       }
     }
   </style>
@@ -42,20 +41,21 @@
 
 <script>
   // ======================================
-  // 1. TÊN 5 NHÓM - BẠN CÓ THỂ TỰ ĐỔI
+  // 1. TÊN CÁC NHÓM
+  // Dùng mảng con để chủ động xuống dòng
   // ======================================
 
   const tenNhom = [
-    "Khai thác thông tin", "dữ liệu và phần mềm dạy học.",
-    "Hợp tác và giao tiếp","trong môi trường số.",
-    "Sáng tạo nội dung số","và an toàn số.",
-    "Học tập nâng cao","kĩ năng số.",
-    "Ứng dụng CNTT","trong dạy học."
+    ["Khai thác thông tin,", "dữ liệu và phần mềm", "dạy học"],
+    ["Hợp tác và giao tiếp", "trong môi trường số"],
+    ["Sáng tạo nội dung số", "và an toàn số"],
+    ["Học tập nâng cao", "kĩ năng số"],
+    ["Ứng dụng CNTT", "trong dạy học"]
   ];
 
   // ======================================
-  // 2. NỘI DUNG TƯƠNG ỨNG VỚI TỪNG CỘT
-  // Mỗi nhóm có 3 mức: 1, 2 và 3
+  // 2. NỘI DUNG HIỂN THỊ KHI RÊ CHUỘT
+  // Mỗi nhóm gồm 3 nội dung tương ứng 3 cột
   // ======================================
 
   const noiDung = [
@@ -87,54 +87,57 @@
   ];
 
   // ======================================
-  // 3. DỮ LIỆU CHIỀU CAO CỦA 15 CỘT
-  // Mỗi nhóm gồm 3 cột có giá trị 1, 2, 3
-  // Bạn có thể thay đổi chiều cao nếu cần
+  // 3. DỮ LIỆU ĐIỂM CỦA 5 NHÓM
+  // Thứ tự trong mỗi nhóm: cột 1, cột 2, cột 3
   // ======================================
 
   const duLieu = [
-    [3, 2, 3], // Nhóm 1
-    [3, 1, 2], // Nhóm 2
-    [2, 3, 3], // Nhóm 3
-    [3, 3, 3], // Nhóm 4
-    [3, 2, 1]  // Nhóm 5
+    [3, 2, 3],
+    [3, 1, 2],
+    [2, 3, 3],
+    [3, 3, 3],
+    [3, 2, 1]
   ];
 
   // ======================================
-  // 4. TẠO 3 TẬP DỮ LIỆU
-  // Mỗi tập tương ứng một mức điểm
+  // 4. MÀU SẮC THEO NHÓM
+  // Nhóm 1 xanh, nhóm 2 đỏ, luân phiên
   // ======================================
 
-  const mauSac = [
-    "#124874",
-    "#CF373D",
-    "#124874"
-  ];
+  const mauXanh = "#124874";
+  const mauDo = "#CF373D";
+  const mauHover = "#E6A23C";
 
+  // Tạo 3 tập dữ liệu, mỗi tập ứng với vị trí cột
   const datasets = [0, 1, 2].map(function(muc) {
     return {
-      label:  (muc + 1)+ "điểm",
+      label: (muc + 1) + " điểm",
 
       data: duLieu.map(function(nhom) {
         return nhom[muc];
       }),
 
-      backgroundColor: mauSac[muc],
+      // Màu được xác định theo nhóm, không theo mức điểm
+      backgroundColor: function(context) {
+        const indexNhom = context.dataIndex;
+        return indexNhom % 2 === 0 ? mauXanh : mauDo;
+      },
 
-      hoverBackgroundColor: "#E6A23C",
+      hoverBackgroundColor: mauHover,
 
+      // Cột trong cùng nhóm nằm sát nhau
       barPercentage: 0.95,
 
-      categoryPercentage: 0.95,
+      // Giảm nhẹ độ rộng cụm cột để tạo khoảng cách giữa các nhóm
+      categoryPercentage: 0.82,
 
       borderRadius: 0,
-
       borderSkipped: false
     };
   });
 
   // ======================================
-  // 5. VẼ BIỂU ĐỒ
+  // 5. TẠO BIỂU ĐỒ
   // ======================================
 
   new Chart(document.getElementById("myChart"), {
@@ -149,26 +152,44 @@
       responsive: true,
       maintainAspectRatio: false,
 
-      // Ba cột trong mỗi nhóm nằm cạnh nhau
-      scales: {
-       x: {
-    title: {
-        display: true,
-        text: "Các nhóm"
-    },
-    ticks: {
-        align: "center",
-        autoSkip: false,
-        maxRotation: 0,
-        minRotation: 0,
-        font: {
-            size: 12
+      layout: {
+        padding: {
+          top: 8,
+          bottom: 5,
+          left: 5,
+          right: 5
         }
-    },
-    grid: {
-        display: false
-    }
-    },
+      },
+
+      scales: {
+        x: {
+          offset: true,
+
+          title: {
+            display: true,
+            text: "Các nhóm",
+            padding: {
+              top: 12
+            }
+          },
+
+          ticks: {
+            autoSkip: false,
+            maxRotation: 0,
+            minRotation: 0,
+            align: "center",
+            crossAlign: "center",
+            padding: 8,
+
+            font: {
+              size: 12
+            }
+          },
+
+          grid: {
+            display: false
+          }
+        },
 
         y: {
           min: 0,
@@ -187,27 +208,21 @@
       },
 
       plugins: {
+        // Không hiển thị chú giải 1 điểm, 2 điểm, 3 điểm
         legend: {
-          display: true,
-          position: "bottom",
-
-          labels: {
-            usePointStyle: true,
-            pointStyle: "rect",
-            padding: 18
-          }
+          display: false
         },
 
         tooltip: {
           enabled: true,
-          displayColors: true,
+          displayColors: false,
 
           callbacks: {
             title: function(items) {
               const indexNhom = items[0].dataIndex;
-              const muc = items[0].datasetIndex + 1;
 
-              return tenNhom[indexNhom];
+              // Hiển thị tên nhóm đầy đủ trên tooltip
+              return tenNhom[indexNhom].join(" ");
             },
 
             label: function(context) {
