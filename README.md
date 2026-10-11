@@ -1,4 +1,4 @@
-# KẾT QUẢ TỰ ĐÁNH GIÁ
+# BIỂU ĐỒ TỰ ĐÁNH GIÁ NĂNG LỰC ICT CỦA BẢN THÂN TRONG DẠY HỌC
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
