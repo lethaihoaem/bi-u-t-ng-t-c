@@ -160,7 +160,7 @@ const datasets = [0, 1, 2].map(function(muc) {
 
           title: {
             display: true,
-            text: "Các nhóm",
+            text: " ",
             padding: {
               top: 12
             }
